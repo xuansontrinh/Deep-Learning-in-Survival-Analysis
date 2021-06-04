@@ -1,0 +1,83 @@
+---
+title: "draft"
+author: "Xuan-Son Trinh - Son.Trinh@campus.lmu.de"
+date: "11/28/2020"
+output: pdf_document
+---
+
+___Survival Analysis Briefing___\
+Survival analysis or time-to-event analysis is a field that focuses on the data that has the following characteristics: the response variable is the waiting time until a well-defined event; there are explanatory variables that play a part in predicting the waiting time; data points are not fully observed, i.e. there are elements of censorship @survival-analysis-theory.\
+With survival analysis, our objective is to model event distribution as a function of time, which can be represented either as continuous or discrete. We assume for now $T^*$ to be a continuous random variable representing the true event time. $f(t)$ and $F(t) = P(T^* < t)$ are density function and cumulative distribution function (cdf) of $T^*$, respectively. We further define two functions of interest: survival function and hazard function, which are often helpful to work on.
+
+The _survival function_ is defined as the complement of the cdf
+\begin{equation}
+S(t) = P(T^* \geq t) = 1 - F(t) = \int_{t}^{\infty}f(x)dx
+\end{equation}
+
+This function can be interpreted as the probability that the event has not happened by the time t.
+
+Another function that can be used to depict the characteristics of the distribution of $T^*$ is called _hazard function_ (or _hazard rate_ in the case of continuous time). It is defined as the instantaneous rate of an event and has the formula
+\begin{equation}
+h(t) = \frac{f(t)}{S(t)} = \lim_{\Delta t \to 0} \frac{1}{\Delta t}P(t \leq T^* < t + \Delta t | T^* \geq t)
+\end{equation}
+From this hazard function, we can also link back to the survival function via the relation
+\begin{equation}
+S(t) = exp[-\int_{0}^{t}h(x)dx] = exp[-H(t)]
+\end{equation}
+, where $H(t) = \int_{0}^{t}h(x)dx$ is called _cumulative hazard_ (or _cumulative risk_).
+
+Data to perform survival analysis are susceptible to right-censoring: the fact that for some of the units, the event of interest has already occurred and we recorded the exact event time for them while for the other units, all we know is that their event time exceeded the time at which it was censored. This is caused by the limited (and practical) time we spend to follow an individual event or by the individual having left the study before its termination. For that reason, instead of observing the true $T^*$, we observe a censored version $T = min\{T^*, C^*\}$, where $C^*$ is the censoring time. In addition, we observe the event time indicator $\delta = \mathbbm{1}\{T = T^*\}$, taking the value one if the observed event time $T$ is uncensored and zero otherwise. For non-censored units, the event occurring is oftentimes also referred to as _death_ or _failure_.
+
+We now construct the likelihood function for censored data. Suppose we keep track of $n$ units and we denote each unit with index $i$, with its realized observed time $t_i$, covariates $\mathbf{x}_i$ and event time indicator $\delta_i$. If the unit already died at time $t_i$, its contribution to the likelihood would be the conditional density $f(t_i|\mathbf{x}_i)$
+\begin{equation}
+L_i = f(t_i|\mathbf{x}_i) = h(t_i|\mathbf{x}_i)S(t_i|\mathbf{x}_i)
+\end{equation}
+
+in contrast, all we know about a censored unit is that it still survives by the time $t_i$ so this leads to its contribution to the likelihood to be
+\begin{equation}
+L_i = S(t_i|\mathbf{x}_i)
+\end{equation}
+
+From equation (4) and (5) along with the event time indicator we define above, we come to the full likelihood function
+\begin{equation}
+L = \prod_i h(t_i|\mathbf{x}_i)^{\delta_i}S(t_i|\mathbf{x}_i) = \prod_i f(t_i|\mathbf{x}_i)^{\delta_i}exp[-H(t_i|\mathbf{x}_i)] = \prod_i f(t_i|\mathbf{x}_i)^{\delta_i}S(t_i|\mathbf{x}_i)^{1 - \delta_i}
+\end{equation}
+
+___Cox Proportional Hazards Model (CPH)___\
+The Cox proportional hazards model @cox-ph is one of the most widely used survival analysis regression models, especially in medical setting, that focus directly on hazard function. Its typical setting is
+\begin{equation}
+h(t|\mathbf{x}) = h_0(t)exp[g(\mathbf{x}, \boldsymbol\beta)], g(\mathbf{x}, \boldsymbol\beta) = \mathbf{\boldsymbol\beta}^\intercal \mathbf{x}
+\end{equation}
+, where $h_0(t)$ is a non-parametric _baseline hazard_, which describes the risk of individuals when $\mathbf{x} = \mathbf{0}$, and $exp[g(\mathbf{x})]$ represents the _relative risk_. In this context, $\mathbf{x}$ is a covariate vector and $\boldsymbol\beta$ is a parameter vector. The linear predictor $g(\mathbf{x})$ does not contain the intercept.
+
+___Why is it called proportional hazards?___ Consider the problem where we have dummy random variable $x$ ($x$ can only take value one or zero), which serves to identify group one and group zero, and a parameter $\beta$. Then from equation (7), we have
+\begin{equation}
+h(t|x = 1) = h_0(t)exp[\beta x] = h_0(t)exp[\beta]
+\end{equation}
+\begin{equation}
+h(t|x = 0) = h_0(t)
+\end{equation}
+$exp[\beta] = \frac{h(t|x = 1)}{h(t|x = 0)}$ represents the ratio of the risk of group one to group zero, and this ratio is indepedent of $t$. In other words, the hazard risk between two groups is proportional over time.
+
+___Some Words on Discrete Hazard and Survival Functions___\
+In survival analysis, there are cases when the condition of continuous time is not applicable. For example, in many practical contexts, data are collected in discrete time intervals such as days/months/years or quarters/semesters/years. Therefore, it is essential to be able to adapt survival analysis concepts to discrete time. 
+
+There are analogous versions of hazard and survival functions for discrete time. Let $T^*$ now be a discrete random variable that takes values $t_1 < t_2 < ...$ with probability function
+\begin{equation}
+f(t_j) = f_j = P(T^* = t_j)
+\end{equation}
+
+The discrete survival function at time $t_j$ is defined as
+\begin{equation}
+S(t_j) = S_j = P(T^* \geq t_j) = \sum_{k=j}^{\infty} f_k
+\end{equation}
+
+In discrete time, survival function can be written in terms of hazards from $t_1, t_2,..., t_{j-1}$: $S_j = (1 - h_1)(1 - h_2)...(1 - h_{j - 1})$, this result can be interpreted as follows: In order to survive at time $j$, the unit must survive at previous time steps.
+
+The discrete hazard function at time $t_j$ is defined as
+\begin{equation}
+h(t_j) = h_j = P(T^* = t_j|T^* \geq t_j) = \frac{f_j}{S_j}
+\end{equation}
+
+With the discrete hazard function, it is now the conditional probability rather than the instantaneous rate as in continuous case.
+

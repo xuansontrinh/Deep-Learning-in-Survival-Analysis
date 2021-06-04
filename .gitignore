@@ -42,3 +42,5 @@ vignettes/*.pdf
 *.pdf
 *.docx
 *.pptx
+*.zip
+.DS_Store

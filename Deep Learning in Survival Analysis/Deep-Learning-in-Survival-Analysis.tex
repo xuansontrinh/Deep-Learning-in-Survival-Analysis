@@ -1,0 +1,1097 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Neural Network in Survival Analysis},
+  pdfauthor={Xuan-Son Trinh},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[headsep=0pt]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\setlength\parindent{0pt}
+\usepackage{bbm}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+  % set entry spacing
+  \ifnum #2 > 0
+  \setlength{\parskip}{#2\baselineskip}
+  \fi
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\title{\textbf{Neural Network in Survival Analysis}}
+\author{Xuan-Son Trinh\footnote{Ludwig Maximilian University of Munich, \href{mailto:Son.Trinh@campus.lmu.de}{\nolinkurl{Son.Trinh@campus.lmu.de}}}}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{5}
+\tableofcontents
+}
+\setlength{\parindent}{0pt}
+
+\newpage
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+\emph{Artificial neural networks} (or in short \emph{neural networks}) refer to systems of interconnected components (neurons) that are loosely inspired from neural networks that make up the biological brains. This kind of the systems is increasingly popular among researchers, becoming the go-to approach to problems in various areas such as computer vision, natural language processing, signal processing, etc. Within this class of machine learning algorithms, feedforward neural networks, or multilayer perceptrons, are the quintessential deep learning models {[}13{]}.
+
+In this thesis, we focus on applications of neural networks, especially feedforward neural networks, in the field of survival analysis, a branch of statistics that concerns the time to the occurrence of one or more events {[}5{]}. This thesis is structured as follows:
+
+\begin{itemize}
+\tightlist
+\item
+  Chapter 2: Theoretical Framework \& Literature Review\\
+  We start by introducing the feedforward neural network, including its basic structure, and its application in the field of survival analysis. We then review some of the models using feedforward neural networks in survival analysis.
+\item
+  Chapter 3: Experiments \& Results\\
+  This chapter focuses on tuning, training and benchmarking DeepHit model. This chapter starts by introducing the pipeline used for preprocessing the data, the set of hyperparameters of DeepHit and the strategy used for tuning, training and benchmarking it. We then propose four experimental settings and start benchmarking them with the 8 datasets provided by the supervisors and testing the performance of our final models (after being trained with full data) with the blackbox test data as a part of The Prediction Challenge. We close the chapter with some remarks about DeepHit's performance on the 8 datasets.
+\item
+  Chapter 4: Conclusion\\
+  This chapter presents the results of this thesis, including what we have learned, what we achieved through the experiments, and also the difficulties we met when working on model tuning, training, and benchmarking.
+\item
+  Appendix:\\
+  The appendix is included for further reading. In this part, we introduce 2 models using RNN in survival analysis and also the plots and tables from the experiments we present in chapter \ref{experiments-results}.
+\end{itemize}
+
+\hypertarget{theoretical-framework-literature-review}{%
+\section{Theoretical Framework \& Literature Review}\label{theoretical-framework-literature-review}}
+
+This chapter provides information on background knowledge of feedforward neural networks and how they are applied to survival analysis. The next subsections presents publications related to this topic.
+
+\hypertarget{feedforward-neural-networks}{%
+\subsection{Feedforward Neural Networks}\label{feedforward-neural-networks}}
+
+This section discusses feedforward neural networks' basic structure and briefly their application to survival analysis.
+
+\hypertarget{basic-structure}{%
+\subsubsection{Basic Structure}\label{basic-structure}}
+
+To have a better grasp of what feedforward neural networks are and do, we start with a single neuron, the basic building block of a neural network. In the context of machine learning, we can think of a neuron as one ``learning unit.'' To put it simple, a neuron is a function that takes input and applies linear transformations, along with an element-wise (non-)linear operation to produce the final output:
+\[f(\mathbf{x}) = \sigma (\sum_{j=1}^{p}w_j x_j + b), \mathbf{w} \in \mathbb{R}^p , b \in \mathbb{R}\]
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{deep-feedforward-neural-network} 
+
+}
+
+\caption{A Feedforward Neural Network}\label{fig:feedforward-neural-network}
+\end{figure}
+
+In the context of feedforward neural networks, function like \(\sigma\) is called \emph{activation function}, \(\mathbf{w}\) is a neuron's \emph{weight vector} and \(b\) is the \emph{bias} of a single neuron. Multiple neurons form a layer/mapping function and multiple layers chained together form a neural network. Each layer plays the role of transforming the input representation to another representation. In short, a feedforward neural network can be seen as a chain of mappings from original input to the final desired output:
+\[f(\mathbf{x}) = f^{(n)}(f^{(n-1)}(...f^{(2)}(f^{(1)}(\mathbf{x}))...))\]
+where \(f^{(i)}(\mathbf{x})\) represents the transformation that the \(i\)-th layer of the neural network applies to the input \(\mathbf{x}\) {[}13{]}.
+
+The term ``feedforward'' comes from the nature of this neural network operation: the information is passed through the network from the input to multiple intermediate computations and ends at the output layer. Additionally, there is no feedback loop where the outputs of the network are passed back to the network {[}13{]}. The graphical representation of this neural network can be seen in Figure \ref{fig:feedforward-neural-network}. The figure presents three main components of a feedforward neural network:
+\vspace{-0.4cm}
+
+\begin{itemize}
+\tightlist
+\item
+  An input \(\mathbf{x}\) as a column vector.
+\item
+  Multiple hidden layers \(\mathbf{z}^{(i)} = \sigma^{(i)} (\mathbf{W^\intercal z^{(i - 1)}} + \mathbf{b^{(i)}}), \mathbf{z}^{(0)} = \mathbf{x}\), where \(\sigma\) is the hidden layer element-wise activation function, \(\mathbf{W}\) represents the weight matrix of the hidden layer and \(\mathbf{b}\) is the bias of the hidden layer
+\item
+  An output layer \(f = \tau (\mathbf{U}^{T}\mathbf{z}^{(I)} + \mathbf{c})\), where \(\tau\) is the output layer element-wise activation function, \(\mathbf{U}\) represents the weight matrix of the output layer and \(\mathbf{c}\) is the bias of the output layer.
+  \vspace{-0.5cm}
+\end{itemize}
+
+The weight matrices and bias vectors of layers are considered to be the set of parameters \(\boldsymbol\theta\) of the feedforward neural network.
+
+\textbf{\emph{Representation Learning}}\\
+Representation learning is one of the reasons why neural network is prominent nowadays. It is essential for a machine learning model to be fed with the ``right'' features/data representations for it to perform well {[}34{]}. Before neural network, complex data representations were usually handcrafted by domain experts. This preprocessing task requires a great deal of time and effort {[}13{]}. Neural network deals with this problem by automatically learning the data representations. With non-linear activation function, each hidden layer of a neural network outputs a more complex and abstract representation built upon its simpler representation from the previous layer or input {[}13{]}. The more hidden layers or the deeper the network, the more non-linearities and abstractions are introduced. Therefore, a sufficiently deep neural network has the capacity to learn and represent highly sophisticated concepts with minimal human intervention {[}13{]}.
+
+\textbf{\emph{Training Feedforward Neural Network}}\\
+To train a neural network, or a machine learning algorithm in general, two things need specifying: a(n) \emph{(empirical) risk function} (or \emph{loss function}) and an \emph{optimizer}.
+\vspace{-0.5cm}
+
+\begin{itemize}
+\tightlist
+\item
+  Most modern neural networks utilize negative log-likelihood as the risk function, which is equivalent to the cross-entropy between the data and the model distribution {[}13{]}. Depending on the model distribution, the form of the negative log-likelihood is specified accordingly.
+\item
+  An optimizer is an algorithm used to minimize the empirical risk, e.g.~\emph{stochastic gradient descent} (SGD) {[}32{]}, \emph{Adam} {[}22{]}. It uses the gradient calculated by some methods to perform learning. A popular method for computing the gradient is \emph{back-propagation} {[}33{]}, which allows the information of the prediction loss to flow backward through the network {[}13{]}.
+\end{itemize}
+
+\hypertarget{application-to-survival-analysis}{%
+\subsubsection{Application to Survival Analysis}\label{application-to-survival-analysis}}
+
+Regarding survival analysis, the Cox Proportional Hazards (CPH) {[}7{]} is a classic regression model and also the most widely used model in the medical setting {[}26{]}. Because of its simplicity, it can be interpreted and optimized easily. However, this model makes many strong assumptions about the underlying stochastic process and linear relationship between the covariates and the parameters of the model. These assumptions cost CPH the flexibility to deal with more complicated scenarios. Therefore, it makes sense to think of models that can handle all of that, and feedforward neural network is one of them. Feedforward neural network delivers the ability to deal with non-linear effects and interactions. It can be used to relax some of the constraints that were previously put on the hypothesis space, e.g.~the assumption on the relationship between the covariates and the parameters of the survival analysis model {[}10{]} {[}21{]} {[}29{]} {[}26{]}.\\
+Moreover, with CPH and many other models, researchers need to feed the model ``right'' features (data representations) to obtain good results. It is, however, difficult to discover those features because they might be very high-level and abstract, along with their complicated interactions. Feedforward neural networks solve this problem by automatically learning representations that are expressed in terms of simpler representations, enabling the system to build sophisticated concepts out of uncomplicated ones {[}13{]}.
+
+\hypertarget{feedforward-neural-network-models-in-survival-analysis}{%
+\subsection{Feedforward Neural Network Models in Survival Analysis}\label{feedforward-neural-network-models-in-survival-analysis}}
+
+In the following subsections, multiple models that apply feedforward neural network to survival analysis are introduced briefly. The list includes: Faraggi and Simon's model (1995) {[}10{]}, Deep Surv (2016) {[}21{]}, Luck et al.'s model (2017) {[}29{]}, and DeepHit (2018) {[}26{]}.
+
+\hypertarget{faraggi-and-simons-model-1995}{%
+\subsubsection{Faraggi and Simon's Model (1995)}\label{faraggi-and-simons-model-1995}}
+
+One of the first applications of feedforward neural networks to survival analysis is from Faraggi and Simon 1995 {[}10{]}. They used a shallow feedforward neural network to learn the non-linear relationship between the covariates and the parameters of the model instead of linear function in the case of CPH.\\
+With CPH, the hazard function has the form:
+\[h(t|\mathbf{x}) = h_0(t)\exp(\mathbf{\boldsymbol\beta}^\intercal \mathbf{x})\]
+The authors proposed to replace the linear functional \(\mathbf{\boldsymbol\beta}^\intercal \mathbf{x}\) with the output from the neural network \(g(\mathbf{x},\boldsymbol\theta)\). Their neural network structure is straightforward: they used one hidden layer with sigmoid element-wise activation function and used weighted sum on the output of the hidden layer to get the final output:
+\[f = \mathbf{u}^\intercal\mathbf{z}+c=\mathbf{u}^\intercal\sigma(\mathbf{w}^\intercal\mathbf{x} + \mathbf{b}) + c\]
+where \(\sigma(x)=\frac{1}{1+exp[-x]}\) (sigmoid function). The value for \(\boldsymbol\theta\) was found by maximizing the penalized Cox partial likelihood {[}6{]} with L2 regularization using Newton-Raphson method.
+
+Though this work failed to demonstrate improvements beyond the linear Cox model {[}10{]} {[}21{]}, Faraggi and Simon pioneered in illustrating the possibility of applying neural networks into dealing with statisticians' problems, e.g.~survival analysis in this case.
+
+\hypertarget{deepsurv-katzman-et-al.-2016}{%
+\subsubsection{DeepSurv (Katzman et al.) (2016)}\label{deepsurv-katzman-et-al.-2016}}
+
+In 2016, Katzman et al.~attempted to improve the architecture that Faraggi and Simon proposed in 1995 {[}10{]} and called the upgraded version DeepSurv {[}21{]}.
+
+The structure of DeepSurv is similar to Faraggi and Simon except for the followings: it has more than one hidden fully-connected layer and the hidden layers' activation function is Rectified Linear Units (ReLU) {[}31{]} instead of sigmoid function; the loss for DeepSurv is minimized by stochastic gradient descent (SGD) with Nesterov momentum. DeepSurv also applies other new deep learning techniques, which were not available in 1995, i.e.~weight decay regularization {[}23{]}, batch normalization {[}19{]}, dropout {[}35{]}, etc.
+
+As a result, Katzman et al.~showed that the neural network solution to survival analysis problem was better in prediction ability than the standard linear Cox proportional hazards model, which was not the case for Faraggi and Simon in 1995.
+
+\hypertarget{luck-et-al.s-model-2017}{%
+\subsubsection{Luck et al.'s Model (2017)}\label{luck-et-al.s-model-2017}}
+
+Previous similar works on survival analysis attempted to model the hazard function or the survival function {[}10{]} {[}21{]}. Luck et al., however, tried a different approach: they used the feedforward neural network to deal directly with the (discrete) time of the event.
+
+The structure of their model is as follows: Regarding hidden layers, the first hidden layers are fully connected and the last hidden layer is a single scalar unit outputting the relative risk, which is analogous to the term \(\exp(\mathbf{\boldsymbol\beta}^\intercal \mathbf{x})\) in the case of CPH's hazard function; the output layer of the network with sigmoid activation function has \(T\) units, each represents the probability of being alive at time \(t\) (t-th year or month) {[}29{]}.
+
+The loss function for this work comprises of two components: the first component uses the Efron's estimation of the Cox partial likelihood {[}9{]} and the second component is an adapted loss from Menon et al. {[}30{]} to take into account the correct ranking information of pairs of individuals when learning the probabilities (an event bound to occur at time t must have higher probability than another event happening at a later point in time).
+
+For evaluation, the authors first preprocessed on the dataset by missing value imputation (median value for continuous features and mode for categorical features). The training part was done with Adam optimizer, along with dropout, batch-normalization, etc. The hyperparameters were tuned by random search. And the benchmark was carried out with performance metric C-index {[}15{]}. As a result, the authors' model outperformed other common methods for survival analysis, including the CPH model and a network trained on the Cox partial likelihood {[}29{]}.
+
+\hypertarget{deephit-lee-et-al.-2018}{%
+\subsubsection{DeepHit (Lee et al.) (2018)}\label{deephit-lee-et-al.-2018}}
+
+DeepHit is a feedforward multi-task neural network created to work with discrete time survival analysis and competing risks {[}26{]}. Many works before DeepHit dealt with survival time problem using feedforward neural network. However, they presented limitation by assuming a specific form of underlying stochastic process and also the constant hazard ratio {[}10{]} {[}21{]} {[}29{]}. Regarding DeepHit, it \textbf{does not} make any of the above assumptions, instead, this method attempts to learn directly the distribution of survival times:
+\begin{equation}
+P(T^* = t, K^* = k|\mathbf{x^*}=\mathbf{x})
+\end{equation}
+where random variables \(T^*\) and \(K^*\) represent true event time and true event, respectively. Moreover, with this way, DeepHit can also have the ability to adapt to changing relationships between the covariates and the event(s) of interest over time {[}26{]}.
+
+
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{deephit-architecture-with-two-competing-risks} 
+
+}
+
+\caption{DeepHit Architecture with two Competing Risks {[}26{]}}\label{fig:deephit-architecture}
+\end{figure}
+
+An example of DeepHit's architecture with two competing risks can be seen in Figure \ref{fig:deephit-architecture}. In general, DeepHit's architecture is structured as a multi-task neural network:
+\vspace{-0.5cm}
+
+\begin{itemize}
+\tightlist
+\item
+  A \emph{shared sub-network}: This sub-network comprises of one fully-connected layer. The original inputs of the model \(\mathbf{x}\) first go through this sub-network to output a latent and complex representation that will be used by the rest of the network \(f_s(\mathbf{x})\).
+\item
+  \(K\) \emph{cause-specific sub-networks}: Each of these sub-networks has two fully-connected layers and takes inputs in pairs \(\mathbf{z} = (f_s(\mathbf{x}), \mathbf{x})\) and generates the output as vector \(f_{c_k}(\mathbf{z})\). To be specific, the cause-specific sub-network takes in two types of inputs: the original inputs of the model and the outputs from the shared sub-network. In this way, DeepHit can take advantage of shared common latent representation without losing information about the non-common part of the latent representation. The outputs of these sub-networks \(f_{c_k}(\mathbf{z})\) correspond to the probabilities of event times for each of the causes.
+\item
+  An \emph{output layer}: This final layer of the network combines the results from \(K\) cause-specific sub-networks, and applies softmax activation function to transform them into the final output, which has the form \(y = [y_{1,1},...,y_{1,T_{max}},..., y_{K,1}, y_{K,T_{max}}]\), where \(T_{max}\) is a finite time horizon. This represents the joint distribution of the event times and the events: given the covariates \(\mathbf{x}\), DeepHit outputs the probability estimate \(y_{k,s} = \hat{P}(t, k|\mathbf{x})\) that event \(k\) will happen at time \(t\) for each event and for each time interval in the discrete time set \(\mathcal{T}\).
+\end{itemize}
+
+The loss function of DeepHit is defined as the sum of the two losses \(\mathcal{L}_1\) and \(\mathcal{L}_2\), which incorporates the log-likelihood of the joint distribution of the event time (\(\mathcal{L}_1\)) and the combination of cause-specific ranking loss functions (\(\mathcal{L}_2\)) {[}26{]}:
+\vspace{-0.5cm}
+
+\begin{itemize}
+\tightlist
+\item
+  \(\mathcal{L}_1\): This loss represents the negative log-likelihood of the joint distribution of the event times and the events. The loss was modified to be able to account for the right-censored data, adapted from the paper of Lee and Whitmore in 2006 {[}28{]}. In general, with uncensored data, the loss captures both the event that has happened and the times to that event; on the other hand, with right-censored data, this loss possesses the knowledge that the individual still survives at censoring time and that the first hitting event will be one of the \(K\) causes after the given censoring time {[}26{]}. This helps the neural network to learn the general representation of the joint distribution of the event times and the events.
+\item
+  \(\mathcal{L}_2\): This loss was inspired from the idea of concordance: an individual with event time \(t\) should have a higher risk at time \(t\) than the other individual with event time greater than \(t\). It integrates into the total loss the ordering/ranking information about pairs of individuals with respect to each event. This in turn helps fine-tune the neural network towards the correct ordering of pairs with respect to each event.
+\end{itemize}
+
+For evaluation, DeepHit's training part was done with Adam optimizer, Dropout, Xavier initialization {[}12{]}. Furthermore, DeepHit's authors applied train-validation split to choose the best set of hyperparameters. The benchmarks were done against multiple previous state-of-the-art models/methods, including cause-specific methods and single risk methods. Before experimenting, data from the real-world datasets was also preprocessed: imputating missing values with mean value for real-valued features and with the mode for categorical features. As a result, DeepHit outperformed other models used for benchmarks in both settings for single cause and competing risks with statistically significant results {[}26{]}.
+
+\hypertarget{summary}{%
+\subsubsection{Summary}\label{summary}}
+
+To sum up, model of Faraggi and Simon 1995, DeepSurv, model of Luck et al.~and DeepHit can cope with non-linear effects and interactions because of the use of feedforward neural network in predicting. Moreover, by taking advantage of deep neural network to learn directly the joint distribution of the events and event times, DeepHit captures successfully the changing relationship between the covariates and the risk(s) over time (time-varying effects). It is also able to work smoothly and naturally with competing risks where there are more than one event of interest.\\
+However, the four methods have multiple drawbacks. The models themselves do not have a natural way of dealing with missing data. Therefore, the data needs to be preprocessed before pouring into the model. In addition, left-truncated, left-censored and interval-censored data were not handled explicitly in the papers and can be considered to extend the possibilities of those models. Moreover, they do not display the ability to work with time-varying covariates. This limitation, however, was overcome later by DeepHit's authors with an extension model called Dynamic-DeepHit {[}27{]}. With the model of Faraggi and Simon 1995, DeepSurv, and Luck et al., there is also a limitation lying in the proportional hazard assumption. This constraint can greatly limit the possibility of what a neural network can do.
+
+\hypertarget{outlook-on-neural-networks-in-survival-analysis}{%
+\subsection{Outlook on Neural Networks in Survival Analysis}\label{outlook-on-neural-networks-in-survival-analysis}}
+
+In this thesis, we cover only feedforward neural network and some of its models in survival analysis. It is, however, not the only neural network type being applied to the field. Some of the other possibilities are:
+
+\textbf{\emph{Recurrent Neural Network}} (RNN): Different from the feedforward neural network, RNN introduces cycles into the computational graph {[}13{]}. These cycles are mechanism for information to flow from one step to the next. This information is usually referred to as a (hidden) state {[}18{]}. A state at time \(t\) \(\mathbf{h}^{(t)}\) in an RNN is described as a function of its previous hidden state \(\mathbf{h}^{(t - 1)}\) and its input at time \(t\) \(\mathbf{x}^{(t)}\). This relationship is depicted through the formula \(\mathbf{h}^{(t)} = f(\mathbf{h}^{(t - 1)}, \mathbf{x}^{(t)}; \boldsymbol\theta)\). Due to its stateful structure, RNN is used for processing sequential data, which requires context/background knowledge, such as time series data, speech, text, etc. {[}13{]}. In the case of survival analysis, this special structure helps in dealing with time-varying covariates (longitudinal data comprising various repeated measurements) {[}27{]} {[}11{]}.
+
+\textbf{\emph{Convolutional Neural Network}} (CNN): It is a specialized type branching from the feedforward neural network. CNN is structured to handle effectively data that has a known grid-like topology, especially images {[}13{]}. Due to its parameter sharing mechanism, the same feature can be computed over multiple locations on the original image. This mechanism takes advantage of the translation-invariance property of many images' statistical properties {[}13{]}. The term ``convolutional'' stems from a special mathematical operation called \emph{convolution} used in at least one of the layers in this network. CNN is applied in survival analysis when there is a need of using images as features to predict the patients' survival times for some diseases {[}39{]} {[}38{]}.
+
+\hypertarget{experiments-results}{%
+\section{Experiments \& Results}\label{experiments-results}}
+
+This chapter focuses on tuning, training and benchmarking DeepHit model. It starts by introducing the pipeline used for preprocessing the data, the set of hyperparameters of DeepHit and the strategy used for tuning, training and benchmarking it. We then propose four experimental settings and start benchmarking them with the 8 datasets provided by the supervisors and test the performance of our final models (after being trained with full data) with the blackbox test data as a part of Prediction Challenge. We close the chapter with some remarks about DeepHit's performance on the 8 datasets.
+
+\hypertarget{environment-settings}{%
+\subsection{Environment Settings}\label{environment-settings}}
+
+First of all, we briefly present the environment we set up for experimenting with DeepHit model. To work on the experiments with DeepHit, we use \texttt{R} programming language and the machine learning library \texttt{mlr3} {[}24{]}. With the DeepHit model, we do not re-implement it from scratch but rely on an implementation from a python package called \texttt{pycox}, which was adapted via an interface library called \texttt{mlr3learners.pycox} to work with \texttt{mlr3} on \texttt{R} {[}37{]} {[}1{]}.
+
+\hypertarget{datasets-overview-data-preprocessing}{%
+\subsection{Datasets Overview \& Data Preprocessing}\label{datasets-overview-data-preprocessing}}
+
+In this section, we briefly give an overview about the 8 datasets provided by the course's supervisors and then present the preprocessing steps that were used to handle the data.
+
+\hypertarget{datasets-overview}{%
+\subsubsection{Datasets Overview}\label{datasets-overview}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{d1}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Sample size: 280.
+  \item
+    Number of features: 15 (11 double features, 3 integer features, 1 factor features).
+  \item
+    No missing data.
+  \item
+    Feature V1 is a counter variable, can be removed without affecting the analysis.
+  \end{itemize}
+\item
+  \textbf{d2}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Sample size: 552.
+  \item
+    Number of features: 1690 (all are double features). This number of features is much larger than the sample size. Therefore feature selection and/or feature reduction are recommended.
+  \item
+    No missing data.
+  \end{itemize}
+\item
+  \textbf{d3}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Sample size: 617.
+  \item
+    Number of features: 10 (5 integer features, 3 factor features).
+  \item
+    No missing data.
+  \end{itemize}
+\item
+  \textbf{d4}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Sample size: 698.
+  \item
+    Number of features: 7 (5 factor features, 2 integer features).
+  \item
+    No missing data.
+  \end{itemize}
+\item
+  \textbf{d5}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Sample size: 1782.
+  \item
+    Number of features: 79 (all are double features).
+  \item
+    No missing data.
+  \item
+    From V7 to V79, the distinct values of these features are \{0,1\}, indicating that these are binary features.
+  \end{itemize}
+\item
+  \textbf{d7}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Sample size: 1800.
+  \item
+    Number of features: 10 (5 factor features, 3 integer features, 2 double features).
+  \item
+    There is missing data in features V5 (0.1\% missing), V8 (0.5\% missing), V9 (0.2\% missing).
+  \end{itemize}
+\item
+  \textbf{d8}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Sample size: 30.
+  \item
+    Number of features: 2 (all are integer features).
+  \item
+    No missing data.
+  \end{itemize}
+\item
+  \textbf{d9}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Sample size: 834.
+  \item
+    Number of features: 8 (all are integer features).
+  \item
+    No missing data.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{data-preprocessing}{%
+\subsubsection{Data Preprocessing}\label{data-preprocessing}}
+
+In many deep learning applications, there is a need of data preprocessing because the original form of data makes it troublesome for the deep learning model to represent or learn efficiently {[}13{]} {[}17{]}. In this section, we present some techniques that were applied to generally handle data in the 8 provided datasets.
+\vspace{-0.5cm}
+
+\begin{itemize}
+\tightlist
+\item
+  Missing values handling: Neural networks in general do not have natural abilities to deal with missing data. Therefore this must be taken care of manually: \emph{mean imputation} is chosen to handle missing numerical data and \emph{mode imputation} is chosen for categorical data.
+\item
+  Data normalizing: It is usually favorable for numerical features to be on the same range, with mean 0 and standard deviation 1. Normalizing the data generally speeds up learning and leads to faster convergence {[}17{]} {[}25{]}.
+\item
+  One-hot encoding: Factored features are also one-hot encoded as DeepHit does not support factored features.
+\end{itemize}
+
+In other words, four methods were used for data preprocessing: mean imputation, mode imputation, data normalization and one-hot encoding. These methods are already implemented in \texttt{PipeOps}, or ``pipeline operators'' in \texttt{mlr3}. Figure \ref{fig:data-preprocessing} represents the order in which those operators are applied to preprocess the data.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{preprocessing} 
+
+}
+
+\caption{Data Preprocessing Pipeline}\label{fig:data-preprocessing}
+\end{figure}
+
+No further feature engineering was worked on as we expect DeepHit can do proper job on automatically learning proper representations for the problem, like other feedforward neural networks as mentioned earlier in Chapter 1.
+
+\hypertarget{deephits-focused-hyperparameters}{%
+\subsection{DeepHit's Focused Hyperparameters}\label{deephits-focused-hyperparameters}}
+
+Most machine learning algorithms have a set of hyperparameters of their own. These hyperparameters play a part of controlling how the algorithms behave {[}13{]}. Therefore, choosing a proper set of hyperparameters is an important task to be able to achieve good performance. In this section, we present the two lists of hyperparameters of DeepHit that we focus on when tuning DeepHit model: the hyperparameters from the first list are set to fixed values while the ones from the other list are tuned based on validation set performance.
+
+\hypertarget{fixed-hyperparameters}{%
+\subsubsection{Fixed Hyperparameters}\label{fixed-hyperparameters}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{optimizer}: It is the algorithm used to minimize the risk over the hypothesis space. We chose the Adam optimizer, which is also used in the original DeepHit paper and is a go-to optimization algorithm for many deep learning applications.
+\item
+  \textbf{early\_stopping}: When training with an iterative optimizer like Adam, it is commonly the case that, after a certain number of iterations, generalization error begins to increase even though training error continues to decrease i.e.~overfitting. Early stopping provides an intuitive yet effective approach that the optimization algorithm must be stopped early before the generalization error increases {[}13{]}. This hyperparameter is set to \texttt{TRUE} for all experimental settings.
+\item
+  \textbf{frac}: Fraction of data reserved for validation set is also fixed to 0.2 if the sample size is larger than 100 and to 0.4 otherwise. The validation set is used to detect when the validation loss stops improving to know when to early stop the optimization process.
+\item
+  \textbf{batch\_size}: It is the size of a minibatch, here it is fixed to 50. Normally, this is a hyperparameter worth tuning. However, due to technical problems we have when variating the batch size, we set it to a fixed value: 50.
+\end{itemize}
+
+\hypertarget{to-be-tuned-hyperparameters}{%
+\subsubsection{To-be-tuned Hyperparameters}\label{to-be-tuned-hyperparameters}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{num\_nodes}: It is a very important hyperparameter of the model. This hyperparameter decides the complexity of the model via setting number of hidden layers and the number of nodes in each hidden layer.
+\item
+  \textbf{learning\_rate}: It controls how quickly the model is adapted to the problem. A big learning rate allows the model to learn faster, at the cost of arriving on a sub-optimal final set of weights or overshooting a better sub-optimum. A smaller learning rate may allow the model to learn a more optimal set of weights but may take significantly longer time to train.
+\item
+  \textbf{dropout}: To simply put, this hyperparameter sets the probability that a neuron in a hidden layer is included during training. It is a regularization method to prevent the neural network from overfitting.
+\item
+  \textbf{epochs}: This hyperparameter represents the number of training iterations over the dataset. Epochs equal to 1 means that we only look at the dataset once.
+\item
+  \textbf{weight\_decay}: It is another regularization hyperparameter, representing the penalty term that controls the amount of L2-regularization on the weights of the model.
+\end{itemize}
+
+These are all the hyperparameters that are chosen to focus on. The reason for these choices are because these are the hyperparameters that were used in tuning phase either in the DeepHit paper or in the examples from the \texttt{pycox} package. There are a lot more hyperparameters that were not touched during the tuning phase and left with default value set by the package.
+
+\hypertarget{hyperparameter-tuning-algorithm-benchmark-method-measure}{%
+\subsection{Hyperparameter Tuning Algorithm, Benchmark Method \& Measure}\label{hyperparameter-tuning-algorithm-benchmark-method-measure}}
+
+In this section, we introduce the algorithms and the measure we used for hyperparameter tuning and also our benchmark method.
+
+\hypertarget{hyperparameter-tuning-algorithm}{%
+\subsubsection{Hyperparameter Tuning Algorithm}\label{hyperparameter-tuning-algorithm}}
+
+Regarding the hyperparameter tuning algorithm, we chose the \emph{random search} strategy {[}4{]}. This strategy defines a search space as a bounded domain of hyperparameter values and randomly samples points in that domain. We chose this algorithm because we have so many hyperparameters to tune and grid search seems to be infeasible in this case. Another reason is that randomly chosen trials are more efficient for hyperparameter optimization than trials on a grid in highly dimensional space as shown empirically and theoretically by James Bergstra and Yoshua Bengio {[}4{]}. Figure \ref{fig:random-search} illustrates a case where random search is more favorable than grid search.
+
+
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{random-search} 
+
+}
+
+\caption{Illustration of random search coping better than grid search with the case where there are hyperparameters that are more important than the others {[}4{]}.}\label{fig:random-search}
+\end{figure}
+
+\hypertarget{benchmark-method}{%
+\subsubsection{Benchmark Method}\label{benchmark-method}}
+
+Regarding the benchmark method, we chose the \emph{nested cross validation}. Nested cross validation is a type of nested resampling, providing a way to obtain unbiased performance estimates for learners. It comprises of 2 parts, outer cross validation and inner cross validation. The inner cross validation is in charge of choosing the best set of hyperparameters and the outer cross validation is to estimate the overall performance of the model. This method is illustrated in Figure \ref{fig:nested-resampling}.
+
+
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{nested-resampling} 
+
+}
+
+\caption{Illustration of nested-resampling {[}3{]}}\label{fig:nested-resampling}
+\end{figure}
+
+In these experiments, we use nested cross validation with 5-fold cross validation for both the outer and inner cross validation.
+
+\hypertarget{measure}{%
+\subsubsection{Measure}\label{measure}}
+
+The measure used for hyperparameter tuning and benchmarking is the Integrated Graf Score, also known as Integrated Brier Score {[}14{]}. The reason for using this measure for hyperparameter tuning is that it is the measure used later on to measure the performance of students' trained models in the Prediction Challenge. This measure is already implemented in \texttt{mlr3} and can be called using the function \texttt{msr("surv.graf")}. Moreover, the performance of the models is tested against the non-parametric Kaplan Meier {[}20{]}.
+
+\hypertarget{experiments}{%
+\subsection{Experiments}\label{experiments}}
+
+In this section, we present a non-tuned baseline model setting for DeepHit and propose 4 experimental settings to benchmark DeepHit performance on 8 provided datasets.
+
+\hypertarget{baseline-setting-for-deephit}{%
+\subsubsection{Baseline Setting for DeepHit}\label{baseline-setting-for-deephit}}
+
+First and foremost, we set up a baseline model with some settings inspired from the DeepHit paper.
+Here, we set the model to have 3 hidden layers, the first and the third hidden layer have 3 times \texttt{n\_features} number of nodes, while the second hidden layer has 5 times \texttt{n\_features} number of nodes. The \texttt{learning\_rate} is set to \texttt{0.01} and \texttt{dropout} is set to \texttt{0.6}.
+
+\textbf{\emph{Results}}: Overall, the model from this baseline setting underperforms the Kaplan Meier on all datasets when benchmarked with nested cross validation on the 8 given datasets. With challenge results (tested against blackbox test samples), it underperforms the Kaplan Meier on 4 out of 8 datasets, i.e.~d1, d2, d7, d9. These results can be observed from Appendix subsection \ref{base}. However, we cannot say anything about the performance of DeepHit through this setting because the hyperparameters were not tuned properly (only set to fixed values). This baseline accomplished its goal as a test to make sure the learner works as intended.
+
+In the next subsections, we introduce four proposed experimental settings, where we keep our focus on variating the \texttt{num\_nodes} configuration, or number of layers and number of nodes in each layer. The reason we choose this hyperparameter to focus on is that this hyperparameter is the key that decides the complexity or the hypothesis space of the neural network. And in order to tune \texttt{num\_nodes}, we present two custom hyperparameters called \texttt{n\_layers} controlling number of hidden layers and \texttt{nodes\_per\_layer} controlling the number of nodes per hidden layer.
+
+\textbf{\emph{Note}}: The 4 settings presented below more or less came from our heuristics and preferences as there are no standard guidelines on how to configure DeepHit's hyperparameters.
+
+\hypertarget{common-hyperparameters-search-ranges}{%
+\subsubsection{Common Hyperparameters Search Ranges}\label{common-hyperparameters-search-ranges}}
+
+In the 4 proposed experimental settings, we share the following list of hyperparameters' search ranges
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+\textbf{Hyperparameter} & \textbf{Search Range} \\
+\midrule
+\endhead
+\texttt{n\_layers} & \texttt{{[}2,\ 4{]}} \\
+\texttt{dropout} & \texttt{{[}0.1,\ 0.3{]}} \\
+\texttt{learning\_rate} & \texttt{{[}0.005,\ 0.02{]}} \\
+\texttt{epochs} & \texttt{{[}75,\ 125{]}} \\
+\texttt{weight\_decay} & \texttt{{[}0.0001,\ 0.001{]}} \\
+\bottomrule
+\end{longtable}
+
+The number of hidden layers is set to the range \texttt{{[}2,\ 4{]}}, inspired from the number of hidden layers of DeepHit in the original paper i.e.~\texttt{3} and from the documentation of pycox's DeepHit examples i.e.~\texttt{4}. Ranges of \texttt{dropout} and \texttt{epochs} are inspired from the documentation of pycox's DeepHit examples, where they set \texttt{dropout} to \texttt{0.1} and \texttt{epochs} to \texttt{100} {[}26{]} {[}8{]}.
+
+\hypertarget{experimental-setting-1---equally-sized-hidden-layers-with-fixed-range}{%
+\subsubsection{Experimental Setting 1 - Equally-sized Hidden Layers with Fixed Range}\label{experimental-setting-1---equally-sized-hidden-layers-with-fixed-range}}
+
+In this setting, we fix the range of \texttt{nodes\_per\_layer} to a specific range and set equal number of nodes across hidden layers. If sample size is too small (\textless{} 100), we configure the range for \texttt{nodes\_per\_layer} to \texttt{{[}16,\ 32{]}}, otherwise, we set the range to \texttt{{[}32,\ 64{]}}. With this heuristics, we expect the model to not overfit the dataset with very small sample size.
+
+\textbf{\emph{Results}}: Model from this setting outperforms the Kaplan Meier on datasets d4, d5, d7 when benchmarked with nested cross validation and underperforms the Kaplan Meier on the remaining datasets. When tested against the blackbox challenge test sets, the model outperforms the Kaplan Meier on datasets d1, d2, d3, d4, d5, d7, d8 and only underperforms the Kaplan Meier on dataset d9. Details can be observed from Appendix subsection \ref{ex1}.
+
+\hypertarget{experimental-setting-2---equally-sized-hidden-layers-with-varied-range}{%
+\subsubsection{Experimental Setting 2 - Equally-sized Hidden Layers with Varied Range}\label{experimental-setting-2---equally-sized-hidden-layers-with-varied-range}}
+
+With this setting, we adapt the range of nodes per layer depending on the number of features of that dataset. The range is set to \texttt{{[}x\ -\ as.integer(x/3),\ x\ +\ as.integer(x/3){]}}, where \texttt{x\ =\ min(as.integer((min(n\_features,\ sample\_size)\ +\ 10)/2),\ 48)}, \texttt{x} is the average of the left and the right boundary of the range. With this setting, we impose the following heuristics:
+\vspace{-0.5cm}
+
+\begin{itemize}
+\tightlist
+\item
+  The number of features should be less than the sample size. If it is not the case then the sample size is used in place of the number of features to determine the range of nodes per layer.
+\item
+  The number of hidden neurons should be between the size of the input layer and the size of the output layer, hence the term \texttt{as.integer((min(n\_features,\ sample\_size)\ +\ 10)/2)} (average of the input layer size and the output layer size), where the input layer size is the number of features, and the output layer size is \texttt{10}, by default as in the DeepHit pycox implementation {[}8{]}. This heuristic is inspired from the rule of thumb when choosing the number of neurons in the hidden layers in the book ``Introduction to Neural Networks for Java'' {[}16{]}.
+\item
+  The average number of hidden neurons should not exceed \texttt{48}. This heuristic is imposed to limit the complexity of the model.
+\end{itemize}
+
+\textbf{\emph{Results}}: Model from this setting outperforms the Kaplan Meier on datasets d1, d5, d7 when benchmarked with nested cross validation and underperforms the Kaplan Meier on the remaining datasets. When tested against the blackbox challenge test sets, as in experimental setting 1, the model outperforms the Kaplan Meier on datasets d1, d2, d3, d4, d5, d7, d8 and only underperforms the Kaplan Meier on dataset d9. Details can be observed from from Appendix subsection \ref{ex2}.
+
+\hypertarget{experimental-setting-3---differently-sized-hidden-layers-with-fixed-range}{%
+\subsubsection{Experimental Setting 3 - Differently-sized Hidden Layers with Fixed Range}\label{experimental-setting-3---differently-sized-hidden-layers-with-fixed-range}}
+
+In this setting, we continue to fix the range of nodes per layer to a specific range as in experimental setting 1. Also, we impose a new heuristic that nodes in central hidden layers are larger than first and last hidden layer's with a factor of 5/3. For example, if the first and last hidden layer have the number of nodes of 33 (\texttt{nodes\_per\_layer\ =\ 33}), then the central hidden layers (if there are) will have the number of nodes of 55. This heuristic is inspired from DeepHit paper, where the second hidden layer is 5/3 times the number of nodes in the first and third hidden layer {[}26{]}.
+
+\textbf{\emph{Results}}: Model from this setting outperforms the Kaplan Meier on datasets d1, d4, d5, d7 when benchmarked with nested cross validation and underperforms the Kaplan Meier on the remaining datasets. When tested against the blackbox challenge test sets, the model outperforms the Kaplan Meier on datasets d1, d2, d3, d4, d5, d7, d8 and only underperforms the Kaplan Meier on dataset d9. Details can be observed from from Appendix subsection \ref{ex3}.
+
+\hypertarget{experimental-setting-4---differently-sized-hidden-layers-with-varied-range}{%
+\subsubsection{Experimental Setting 4 - Differently-sized Hidden Layers with Varied Range}\label{experimental-setting-4---differently-sized-hidden-layers-with-varied-range}}
+
+With this setting, we not only adapt the range of nodes per layer depending on the number of features of that dataset (as in experimental setting 2) but also impose the heuristic that nodes in central hidden layers are larger than first and last hidden layer's with a factor of 5/3 (as in experimental setting 3).
+
+\textbf{\emph{Results}}: Model from this setting outperforms the Kaplan Meier on datasets d1, d5, d7 when benchmarked with nested cross validation and underperforms the Kaplan Meier on the remaining datasets. When tested against the blackbox challenge test sets, like the 3 previous experimental settings, the model from experimental setting 4 outperforms the Kaplan Meier on datasets d1, d2, d3, d4, d5, d7, d8 and only underperforms the Kaplan Meier on dataset d9 (Appendix subsection \ref{ex4}).
+
+\hypertarget{remarks}{%
+\subsubsection{Remarks}\label{remarks}}
+
+\begin{itemize}
+\tightlist
+\item
+  There is no clear dominance in performance of any proposed setting over others.
+\item
+  The four proposed settings show improvements in performance over the paper-inspired baseline model: the proposed settings all outperform the Kaplan Meier on 7 out of 8 datasets (all except for d9) while the paper-inspired baseline model only outperforms the Kaplan Meier on 4 out of 8 datasets. This shows the importance of hyperparameter tuning with DeepHit or deep neural networks in general.
+\item
+  When benchmarked with nested cross validation, the four settings outperform the Kaplan Meier on dataset d5 (1782 x 81), d7 (1800 x 12), which are the two \textbf{\emph{largest}} datasets in total 8 challenge datasets. Therefore, it can be observed that sample size can have a measurable impact on the final performance of deep learning, or DeepHit in this case. We can also refer to DeepHit paper itself, where there were experiments with 2 single risk datasets, they are The United Network for Organ Sharing (UNOS) database with sample size of more than 60,000, and METABRIC The Molecular Taxonomy of Breast Cancer International Consortium (METABRIC) dataset with roughly 2,000 samples {[}26{]}.
+\item
+  Although the proposed settings can only outperform the Kaplan Meier on at most 4 out of 8 provided datasets, the challenge performance of them is better than the Kaplan Meier on most of the datasets, except for dataset d9. One speculation is that with nested CV, only 80\% of the dataset is used for training, this smaller training set may be insufficient for DeepHit to learn the characteristics of the datasets, that can be a fair reason for the outperformance of tuned DeepHit over Kaplan Meier in the prediction challenge.
+\item
+  It is surprising to see the 4 tuned DeepHit models (corresponding to 4 experimental settings) outperform the Kaplan Meier in the dataset d8, where the sample size is only 30 and there are 2 features. However, the blackbox test set for that dataset has only 4 instances so there is a high chance that the 4 tuned DeepHit models just got lucky this time.
+\end{itemize}
+
+\hypertarget{conclusion}{%
+\section{Conclusion}\label{conclusion}}
+
+This chapter presents the results of this thesis, including what we have learned, what we achieved through the experiments, and also the difficulties we met when working on model tuning, training, benchmarking.
+
+\hypertarget{what-we-learnt-achieved}{%
+\subsection{What We Learnt \& Achieved}\label{what-we-learnt-achieved}}
+
+Over the course of this thesis, we spent a good amount of time studying Deep Neural Network, especially Feedforward Neural Network in general and its application to the task of survival analysis. We have seen multiple attempts throughout the years to get Feedforward Neural Network better at that task. Through the first seminar, we also knew more about other machine learning algorithms used to work on survival analysis such as random forest, support vector machine, etc.
+
+Moreover, we also got a chance to work with \texttt{R} and machine learning library \texttt{mlr3} to learn how to set up a pipeline to train, tune, and benchmark a machine learning model in general and DeepHit model in particular.
+
+Through experiments, we proposed 4 experimental settings aiming at better tuning the DeepHit model to improve performance on the 8 provided datasets. From the experimental results, it can be seen that DeepHit's model is very sensitive to hyperparameter tuning, and sample size can greatly impact the performance of DeepHit.
+
+\hypertarget{difficulties-limitations}{%
+\subsection{Difficulties \& Limitations}\label{difficulties-limitations}}
+
+In the process of tuning, training, benchmarking model, we had multiple problems:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Error }\ControlFlowTok{in} \FunctionTok{py\_call\_impl}\NormalTok{(callable, dots}\SpecialCharTok{$}\NormalTok{args, dots}\SpecialCharTok{$}\NormalTok{keywords) }\SpecialCharTok{:} 
+\NormalTok{  ValueError}\SpecialCharTok{:}\NormalTok{ Expected more than }\DecValTok{1}\NormalTok{ value per channel when training, }
+\NormalTok{              got input size }\FunctionTok{torch.Size}\NormalTok{([}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\item
+  When we attempted to variate the batch size i.e.~to define a range for the batch size to be tuned via random search, we got the error as in code snippet above. Because we hadn't found the reason for this error yet, we resorted to fix the value of batch size to 50.
+\item
+  Another problem is to tune untyped hyperparameters. As there were few documentation on how to deal with these types of hyperparameters on \texttt{mlr3}'s documentation sites such as \texttt{mlr3book} or \texttt{mlr3gallery}, it took us a lot of time until we found a workable solution. That is to use the \texttt{trafo} (transform) function of \texttt{ParamSet} object:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  deephit\_search\_space}\SpecialCharTok{$}\NormalTok{trafo }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(x, param\_set) \{}
+\NormalTok{    x}\SpecialCharTok{$}\NormalTok{surv.deephit.num\_nodes }\OtherTok{=} \FunctionTok{rep}\NormalTok{(}\FunctionTok{as.integer}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(x}\SpecialCharTok{$}\NormalTok{nodes\_per\_layer)), }
+\NormalTok{                                   x}\SpecialCharTok{$}\NormalTok{n\_layers)}
+\NormalTok{    x}\SpecialCharTok{$}\NormalTok{nodes\_per\_layer }\OtherTok{=}\NormalTok{ x}\SpecialCharTok{$}\NormalTok{n\_layers }\OtherTok{=} \ConstantTok{NULL}
+    \FunctionTok{return}\NormalTok{(x)}
+\NormalTok{  \}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  The benchmark process with nested cross validation is very computationally expensive. With every benchmarking task of an experimental setting on 8 datasets, it took more than 12 hours to get the result. Moreover, we ran into the problem of memory shortage because a tuned deep learning model is large. We had to set up a cloud virtual machine to cater for the task.
+\end{itemize}
+
+\newpage
+
+\hypertarget{references}{%
+\section{References}\label{references}}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{0}{0}
+\leavevmode\hypertarget{ref-mlr3learners-pycox}{}%
+\CSLLeftMargin{{[}1{]} }
+\CSLRightInline{Adds learners from python package pycox for mlr3: \emph{\url{https://rdrr.io/github/mlr3learners/mlr3learners.pycox/}}.}
+
+\leavevmode\hypertarget{ref-temporal-attention-mechanism}{}%
+\CSLLeftMargin{{[}2{]} }
+\CSLRightInline{Bahdanau, D. et al. 2014. Neural machine translation by jointly learning to align and translate. \emph{ArXiv}. 1409, (Sep. 2014).}
+
+\leavevmode\hypertarget{ref-mlr3-book}{}%
+\CSLLeftMargin{{[}3{]} }
+\CSLRightInline{Becker, M. et al. 2021. mlr3 book.}
+
+\leavevmode\hypertarget{ref-random-search}{}%
+\CSLLeftMargin{{[}4{]} }
+\CSLRightInline{Bergstra, J. and Bengio, Y. 2012. Random search for hyper-parameter optimization. \emph{J. Mach. Learn. Res.} 13, null (Feb. 2012), 281--305.}
+
+\leavevmode\hypertarget{ref-stata-intro-survival}{}%
+\CSLLeftMargin{{[}5{]} }
+\CSLRightInline{Cleves, M. et al. 2008. \emph{An introduction to survival analysis using stata, 2nd edition}. Stata Press.}
+
+\leavevmode\hypertarget{ref-cox-partial-likelihood}{}%
+\CSLLeftMargin{{[}6{]} }
+\CSLRightInline{Cox, D. 1975. Partial likelihood. \emph{Biometrika}. 62, (Aug. 1975), 269--276. DOI:https://doi.org/\href{https://doi.org/10.1093/biomet/62.2.269}{10.1093/biomet/62.2.269}.}
+
+\leavevmode\hypertarget{ref-cox-ph}{}%
+\CSLLeftMargin{{[}7{]} }
+\CSLRightInline{Cox, D.R. 1972. Regression models and life-tables. \emph{Journal of the Royal Statistical Society. Series B (Methodological)}. 34, 2 (1972), 187--220.}
+
+\leavevmode\hypertarget{ref-deephit-r}{}%
+\CSLLeftMargin{{[}8{]} }
+\CSLRightInline{DeepHit survival neural network: \emph{\url{https://rdrr.io/cran/survivalmodels/man/deephit.html}}.}
+
+\leavevmode\hypertarget{ref-efron-partial-likelihood}{}%
+\CSLLeftMargin{{[}9{]} }
+\CSLRightInline{Efron, B. 1977. The efficiency of cox's likelihood function for censored data. \emph{Journal of the American Statistical Association}. 72, 359 (1977), 557--565.}
+
+\leavevmode\hypertarget{ref-Faraggi-and-Simon-1995}{}%
+\CSLLeftMargin{{[}10{]} }
+\CSLRightInline{Faraggi, D. and Simon, R. 1995. A neural network model for survival data. \emph{Statistics in Medicine}. 14, 1 (1995), 73--82. DOI:https://doi.org/\url{https://doi.org/10.1002/sim.4780140108}.}
+
+\leavevmode\hypertarget{ref-rnn-surv}{}%
+\CSLLeftMargin{{[}11{]} }
+\CSLRightInline{Giunchiglia, E. et al. 2018. RNN-SURV: A deep recurrent model for survival analysis. (Oct. 2018).}
+
+\leavevmode\hypertarget{ref-xavier-init}{}%
+\CSLLeftMargin{{[}12{]} }
+\CSLRightInline{Glorot, X. and Bengio, Y. 2010. Understanding the difficulty of training deep feedforward neural networks. \emph{Proceedings of the thirteenth international conference on artificial intelligence and statistics} (Chia Laguna Resort, Sardinia, Italy, 2010), 249--256.}
+
+\leavevmode\hypertarget{ref-Goodfellow-et-al-2016}{}%
+\CSLLeftMargin{{[}13{]} }
+\CSLRightInline{Goodfellow, I. et al. 2016. \emph{Deep learning}. MIT Press.}
+
+\leavevmode\hypertarget{ref-ibs}{}%
+\CSLLeftMargin{{[}14{]} }
+\CSLRightInline{Graf, E. et al. 1999. Assessment and comparison of prognostic classification schemes for survival data. \emph{Statistics in Medicine}. 18, 17‐18 (1999), 2529--2545. DOI:https://doi.org/\url{https://doi.org/10.1002/(SICI)1097-0258(19990915/30)18:17/18\%3C2529::AID-SIM274\%3E3.0.CO;2-5}.}
+
+\leavevmode\hypertarget{ref-c-idx}{}%
+\CSLLeftMargin{{[}15{]} }
+\CSLRightInline{Harrell, J., Frank E. et al. 1982. {Evaluating the Yield of Medical Tests}. \emph{JAMA}. 247, 18 (May 1982), 2543--2546. DOI:https://doi.org/\href{https://doi.org/10.1001/jama.1982.03320430047030}{10.1001/jama.1982.03320430047030}.}
+
+\leavevmode\hypertarget{ref-heaton2005neural}{}%
+\CSLLeftMargin{{[}16{]} }
+\CSLRightInline{Heaton, J.T. 2005. \emph{Introduction to neural networks with java}. Heaton Research, Inc.}
+
+\leavevmode\hypertarget{ref-bag-of-tricks}{}%
+\CSLLeftMargin{{[}17{]} }
+\CSLRightInline{Hinton, G. et al. Lecture notes in neural networks for machine learning. Coursera.}
+
+\leavevmode\hypertarget{ref-rnn-towards-ds}{}%
+\CSLLeftMargin{{[}18{]} }
+\CSLRightInline{Illustrated guide to recurrent neural networks: 2018. \emph{\url{https://towardsdatascience.com/illustrated-guide-to-recurrent-neural-networks-79e5eb8049c9}}.}
+
+\leavevmode\hypertarget{ref-batch-normalization}{}%
+\CSLLeftMargin{{[}19{]} }
+\CSLRightInline{Ioffe, S. and Szegedy, C. 2015. Batch normalization: Accelerating deep network training by reducing internal covariate shift. \emph{CoRR}. abs/1502.03167, (2015).}
+
+\leavevmode\hypertarget{ref-kaplan-meier}{}%
+\CSLLeftMargin{{[}20{]} }
+\CSLRightInline{Kaplan, E.L. and Meier, P. 1958. Nonparametric estimation from incomplete observations. \emph{Journal of the American Statistical Association}. 53, 282 (1958), 457--481. DOI:https://doi.org/\href{https://doi.org/10.1080/01621459.1958.10501452}{10.1080/01621459.1958.10501452}.}
+
+\leavevmode\hypertarget{ref-Katzman-et-al-2016}{}%
+\CSLLeftMargin{{[}21{]} }
+\CSLRightInline{Katzman, J. et al. 2016. Deep survival: A deep cox proportional hazards network. (Jun. 2016).}
+
+\leavevmode\hypertarget{ref-adam-optimizer}{}%
+\CSLLeftMargin{{[}22{]} }
+\CSLRightInline{Kingma, D.P. and Ba, J. 2017. Adam: A method for stochastic optimization.}
+
+\leavevmode\hypertarget{ref-wdr}{}%
+\CSLLeftMargin{{[}23{]} }
+\CSLRightInline{Krogh, A. and Hertz, J. 1991. A simple weight decay can improve generalization. \emph{NIPS} (1991).}
+
+\leavevmode\hypertarget{ref-mlr3}{}%
+\CSLLeftMargin{{[}24{]} }
+\CSLRightInline{Lang, M. et al. 2019. {mlr3}: A modern object-oriented machine learning framework in {R}. \emph{Journal of Open Source Software}. (Dec. 2019). DOI:https://doi.org/\href{https://doi.org/10.21105/joss.01903}{10.21105/joss.01903}.}
+
+\leavevmode\hypertarget{ref-efficient-backprop}{}%
+\CSLLeftMargin{{[}25{]} }
+\CSLRightInline{LeCun, Y. et al. 1998. Efficient BackProp. \emph{Neural networks: Tricks of the trade, this book is an outgrowth of a 1996 NIPS workshop} (Berlin, Heidelberg, 1998), 9--50.}
+
+\leavevmode\hypertarget{ref-deephit}{}%
+\CSLLeftMargin{{[}26{]} }
+\CSLRightInline{Lee, C. et al. 2018. DeepHit: A deep learning approach to survival analysis with competing risks. \emph{AAAI} (2018).}
+
+\leavevmode\hypertarget{ref-dynamic-deephit}{}%
+\CSLLeftMargin{{[}27{]} }
+\CSLRightInline{Lee, C. et al. 2019. Dynamic-DeepHit: A deep learning approach for dynamic survival analysis with competing risks based on longitudinal data. \emph{IEEE Transactions on Biomedical Engineering}. PP, (Apr. 2019), 1--1. DOI:https://doi.org/\href{https://doi.org/10.1109/TBME.2019.2909027}{10.1109/TBME.2019.2909027}.}
+
+\leavevmode\hypertarget{ref-Lee_2006}{}%
+\CSLLeftMargin{{[}28{]} }
+\CSLRightInline{Lee, M.-L.T. and Whitmore, G.A. 2006. Threshold regression for survival analysis: Modeling event times by a stochastic process reaching a boundary. \emph{Statistical Science}. 21, 4 (Nov. 2006), 501--513. DOI:https://doi.org/\href{https://doi.org/10.1214/088342306000000330}{10.1214/088342306000000330}.}
+
+\leavevmode\hypertarget{ref-luck2017deep}{}%
+\CSLLeftMargin{{[}29{]} }
+\CSLRightInline{Luck, M. et al. 2017. Deep learning for patient-specific kidney graft survival analysis.}
+
+\leavevmode\hypertarget{ref-menon-ranking}{}%
+\CSLLeftMargin{{[}30{]} }
+\CSLRightInline{Menon, A. et al. 2012. Predicting accurate probabilities with a ranking loss. \emph{Proceedings of the 29th International Conference on Machine Learning, ICML 2012}. 1, (Jun. 2012).}
+
+\leavevmode\hypertarget{ref-relu}{}%
+\CSLLeftMargin{{[}31{]} }
+\CSLRightInline{Nair, V. and Hinton, G. 2010. Rectified linear units improve restricted boltzmann machines vinod nair. \emph{Proceedings of ICML} (Jun. 2010), 807--814.}
+
+\leavevmode\hypertarget{ref-gds-optimization}{}%
+\CSLLeftMargin{{[}32{]} }
+\CSLRightInline{Ruder, S. 2017. An overview of gradient descent optimization algorithms.}
+
+\leavevmode\hypertarget{ref-backprop}{}%
+\CSLLeftMargin{{[}33{]} }
+\CSLRightInline{Rumelhart, D.E. et al. 1986. {Learning representations by back-propagating errors}. 323, 6088 (Oct. 1986), 533--536. DOI:https://doi.org/\href{https://doi.org/10.1038/323533a0}{10.1038/323533a0}.}
+
+\leavevmode\hypertarget{ref-deeplearning-lmu}{}%
+\CSLLeftMargin{{[}34{]} }
+\CSLRightInline{Rügamer, D. 2020. Lecture notes in computer assisted diagnosis. Department of Statistics, Ludwig Maximilian University of Munich.}
+
+\leavevmode\hypertarget{ref-dropout}{}%
+\CSLLeftMargin{{[}35{]} }
+\CSLRightInline{Srivastava, N. et al. 2014. Dropout: A simple way to prevent neural networks from overfitting. \emph{Journal of Machine Learning Research}. 15, (Jun. 2014), 1929--1958.}
+
+\leavevmode\hypertarget{ref-c-idx-bound}{}%
+\CSLLeftMargin{{[}36{]} }
+\CSLRightInline{Steck, H. et al. 2008. On ranking in survival analysis: Bounds on the concordance index. \emph{Advances in neural information processing systems} (2008), 1209--1216.}
+
+\leavevmode\hypertarget{ref-pycox}{}%
+\CSLLeftMargin{{[}37{]} }
+\CSLRightInline{Survival analysis with PyTorch: \emph{\url{https://pypi.org/project/pycox/}}.}
+
+\leavevmode\hypertarget{ref-zhang2019cnnbased}{}%
+\CSLLeftMargin{{[}38{]} }
+\CSLRightInline{Zhang, Y. et al. 2019. CNN-based survival model for pancreatic ductal adenocarcinoma in medical imaging.}
+
+\leavevmode\hypertarget{ref-cnn-sa-1}{}%
+\CSLLeftMargin{{[}39{]} }
+\CSLRightInline{Zhu, X. et al. 2016. Deep convolutional neural network for survival analysis with pathological images. (Dec. 2016), 544--547.}
+
+\end{CSLReferences}
+
+\newpage
+
+\appendix
+
+\hypertarget{appendix}{%
+\section{Appendix}\label{appendix}}
+
+The appendix is included for further reading. In this part, we introduce 2 models using RNN in survival analysis and also the plots and tables from the experiments we present in chapter \ref{experiments-results}.
+
+\hypertarget{recurrent-neural-network-models-in-survival-analysis}{%
+\subsection{Recurrent Neural Network Models in Survival Analysis}\label{recurrent-neural-network-models-in-survival-analysis}}
+
+This section of the appendix gives some concrete examples about RNN applications in survival analysis.
+
+\hypertarget{rnn-surv-giunchiglia-et-al.-2018}{%
+\subsubsection{RNN-Surv (Giunchiglia et al.) (2018)}\label{rnn-surv-giunchiglia-et-al.-2018}}
+
+Before RNN-Surv, there had not been published results applying RNN in survival analysis {[}11{]}. By taking advantage of RNN structure, RNN-Surv's authors managed to model the possible time-variant effects of the covariates and the dependence structure of survival probability of consecutive timesteps.
+
+For an individual \(i\), RNN-Surv deals with survival analysis problem by dividing it into \(K\) binary sub-problems on the intervals \((t_0,t_1],...,(t_{K-1},t_K]\). The goal is to model the survival probability estimate \(\hat{y}_i^{(k)}\) for each of the \(k\)-th time interval and then linearly combine \(K\) survival probability estimates to produce the final risk score \(\hat{r}_i\). The model is structured as follows:
+\vspace{-0.5cm}
+
+\begin{itemize}
+\tightlist
+\item
+  The input layer consists of \(K\) covariate vectors \(\mathbf{x}_i^{(k)}\) for each of the time interval.
+\item
+  The input is then passed through a feedforward neural network to extract a more meaningful representation of the data (embedding step).
+\item
+  The embedded data is then passed through an RNN and a sigmoid activation to give out \(K\) survival probability estimates \(\hat{y}_i^{(k)}\).
+\item
+  The results from the RNN will then be linearly combined to compute the final risk score: \(\hat{r}_i = \sum_{k = 1}^{K} \hat{y}_i^{(k)}\).
+\end{itemize}
+
+The loss function of this model is defined as a linear combination of two sub-losses \(\mathcal{L}_1\) and \(\mathcal{L}_2\), with the summation coefficients set as hyperparamaters to be optimized during validation.
+\vspace{-0.5cm}
+
+\begin{itemize}
+\tightlist
+\item
+  \(\mathcal{L}_1\) integrates \(K\) binary sub-problems' losses with the cross-entropy loss.
+\item
+  \(\mathcal{L}_2\) is defined as an upper bound on the C-index {[}36{]}, which is less computationally expensive than the negative C-index.
+\end{itemize}
+
+The model settings are as follows: dropout is applied to feedforward layers and recurrent layers, together with early stopping. The model also uses L2-regularization to the linear combination of the losses. The network is trained using Adam optimizer and mini-batching. Before used for training, the data is preprocessed by first imputing missing value (using mean value for continuous features and using the most recurrent value for categorical ones) and second using one-hot encoding for categorical features and standardizing each feature.
+
+\hypertarget{dynamic-deephit-lee-et-al.-2019}{%
+\subsubsection{Dynamic-DeepHit (Lee et al.) (2019)}\label{dynamic-deephit-lee-et-al.-2019}}
+
+Dynamic-DeepHit is a powerful extension of the original DeepHit mentioned in the previous section {[}27{]}. As a result, it inherits the ability of DeepHit in learning directly the time-to-event distribution without making any strict assumption on the underlying stochastic process and in dealing with competing risks naturally. In addition, Dynamic-DeepHit can also work with time-varying covariates. This helps Dynamic-DeepHit take advantage of the amount of data available over time rather than just rely on the last available measurements like its predecessor.
+
+Similar to DeepHit's architecture, Dynamic-DeepHit's is also structured as a multi-task network:
+\vspace{-0.45cm}
+
+\begin{itemize}
+\tightlist
+\item
+  A \emph{shared sub-network}: This sub-network includes 2 parts:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    An RNN structure to capture information from longitudinal covariates. It can flexibly handle longitudinal data where each observation has different number of measurements and not every predictor is observed at each measurement (partially missing).
+  \item
+    A temporal attention mechanism {[}2{]} to enable the network to make decision on the parts of the past longitudinal measurements to focus on. It is formally defined as a weighted sum of the hidden states {[}27{]}.
+  \end{itemize}
+\item
+  \(K\) \emph{cause-specific sub-networks}: Each cause-specific sub-network of Dynamic-DeepHit is a feedforward neural network with the goal of extracting information about underlying connections between the event and the history of measurements. The outputs of these sub-networks \(f_{c_k}\) correspond to the probabilities of event times for each of the causes.
+\item
+  An \emph{output layer}: Similar to DeepHit, this output layer will combine \(K\) output vectors from the cause-specific sub-networks and apply the softmax activation function to give out a proper probability measure that represents the estimate of join distribution of the events and the event times.
+\end{itemize}
+
+The loss function of this neural network \(\mathcal{L}_{total}\) is defined as combination of the three losses:
+\vspace{-0.45cm}
+
+\begin{itemize}
+\tightlist
+\item
+  \(\mathcal{L}_1\): the negative log-likelihood of the joint distribution of the events and the event times, taking into consideration of the right-censored data.
+\item
+  \(\mathcal{L}_2\): this loss penalizes the incorrect ordering of pairs with respect to each event based on the concordance rule: any observation with event time \(t\) should have a higher risk at event time \(t\) than another observation with event time greater than \(t\).
+\item
+  \(\mathcal{L}_3\): this loss plays a part of regularizing the shared sub-network in the sense that the hidden representation of the data (at time \(t_j\)) should preserve information for step-ahead prediction (at time \(t_{j + 1}\)).
+\end{itemize}
+
+The model is trained using Adam optimizer with various mini-batch sizes. Moreover, to prevent the model from overfitting, the authors used early-stopping based on the performance and L1 regularization for the cause-specific sub-networks and output layer. For evaluating on datasets, the authors used 5-fold cross validation and used 20\% of the data from training set to be validation set. The hyper-parameters for the activation functions, coefficients, number of hidden layers/nodes were performed using Random Search.
+
+\hypertarget{summary-1}{%
+\subsubsection{Summary}\label{summary-1}}
+
+Dynamic-DeepHit and RNN-SURV present the power of RNNs in working on sequential data, in this case the time-varying covariates. Furthermore, with Dynamic-DeepHit, it incorporates all the abilities of DeepHit like handling non-linearities, capturing time-varying effects and dealing with competing risks.\\
+However, missing values were cared in the data preprocessing step by using imputation methods and heuristics. There is no natural way for Dynamic-DeepHit and RNN-SURV network to deal with this problem. In addition, problems like left-truncation, left-censoring and interval-censoring were not taken into consideration in the methods.
+
+\hypertarget{experimental-results---tables-graphs}{%
+\subsection{Experimental Results - Tables \& Graphs}\label{experimental-results---tables-graphs}}
+
+In this section, the detailed experimental results are given under the form of graphs and tables.
+
+\hypertarget{base}{%
+\subsubsection{Baseline Setting for DeepHit}\label{base}}
+
+The detailed benchmark results and the blackbox test results of the paper-inspired baseline model against 8 provided datasets can be observed at Figure \ref{fig:paper-inspired-baseline-settings-nested-cv-boxplots} and Figure \ref{fig:paper-inspired-baseline-settings-results}.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{paper-inspired-baseline-settings-nested-cv-boxplots} 
+
+}
+
+\caption{Paper-inspired Baseline Setting's Benchmark Results}\label{fig:paper-inspired-baseline-settings-nested-cv-boxplots}
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{paper-inspired-baseline-settings-results} 
+
+}
+
+\caption{Paper-inspired Baseline Setting's Performance Results}\label{fig:paper-inspired-baseline-settings-results}
+\end{figure}
+
+\hypertarget{ex1}{%
+\subsubsection{Experimental Setting 1 - Equally-sized Hidden Layers with Fixed Range}\label{ex1}}
+
+The detailed benchmark results and the blackbox test results of experimental setting 1 against 8 provided datasets can be observed at Figure \ref{fig:equally-sized-hidden-layers-w-fixed-range-nested-cv-boxplots} and Figure \ref{fig:equally-sized-hidden-layers-w-fixed-range-results}.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{equally-sized-hidden-layers-w-fixed-range-nested-cv-boxplots} 
+
+}
+
+\caption{Equally-sized Hidden Layers with Fixed Range Setting's Benchmark Results}\label{fig:equally-sized-hidden-layers-w-fixed-range-nested-cv-boxplots}
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{equally-sized-hidden-layers-w-fixed-range-results} 
+
+}
+
+\caption{Equally-sized Hidden Layers with Fixed Range Setting's Performance Results}\label{fig:equally-sized-hidden-layers-w-fixed-range-results}
+\end{figure}
+
+\hypertarget{ex2}{%
+\subsubsection{Experimental Setting 2 - Equally-sized Hidden Layers with Varied Range}\label{ex2}}
+
+The detailed benchmark results and the blackbox test results of experimental setting 2 against 8 provided datasets can be observed at Figure \ref{fig:equally-sized-hidden-layers-w-varied-range-nested-cv-boxplots} and Figure \ref{fig:equally-sized-hidden-layers-w-varied-range-results}.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{equally-sized-hidden-layers-w-varied-range-nested-cv-boxplots} 
+
+}
+
+\caption{Equally-sized Hidden Layers with Varied Range Setting's Benchmark Results}\label{fig:equally-sized-hidden-layers-w-varied-range-nested-cv-boxplots}
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{equally-sized-hidden-layers-w-varied-range-results} 
+
+}
+
+\caption{Equally-sized Hidden Layers with Varied Range Setting's Performance Results}\label{fig:equally-sized-hidden-layers-w-varied-range-results}
+\end{figure}
+
+\hypertarget{ex3}{%
+\subsubsection{Experimental Setting 3 - Differently-sized Hidden Layers with Fixed Range}\label{ex3}}
+
+The detailed benchmark results and the blackbox test results of experimental setting 3 against 8 provided datasets can be observed at Figure \ref{fig:differently-sized-hidden-layers-w-fixed-range-nested-cv-boxplots} and Figure \ref{fig:differently-sized-hidden-layers-w-fixed-range-results}.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{differently-sized-hidden-layers-w-fixed-range-nested-cv-boxplots} 
+
+}
+
+\caption{Differently-sized Hidden Layers with Fixed Range Setting's Benchmark Results}\label{fig:differently-sized-hidden-layers-w-fixed-range-nested-cv-boxplots}
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{differently-sized-hidden-layers-w-fixed-range-results} 
+
+}
+
+\caption{Equally-sized Hidden Layers with Fixed Range Setting's Performance Results}\label{fig:differently-sized-hidden-layers-w-fixed-range-results}
+\end{figure}
+
+\hypertarget{ex4}{%
+\subsubsection{Experimental Setting 4 - Differently-sized Hidden Layers with Varied Range}\label{ex4}}
+
+The detailed benchmark results and the blackbox test results of experimental setting 4 against 8 provided datasets can be observed at Figure \ref{fig:differently-sized-hidden-layers-w-varied-range-nested-cv-boxplots} and Figure \ref{fig:differently-sized-hidden-layers-w-varied-range-results}.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{differently-sized-hidden-layers-w-varied-range-nested-cv-boxplots} 
+
+}
+
+\caption{Differently-sized Hidden Layers with Varied Range Setting's Benchmark Results}\label{fig:differently-sized-hidden-layers-w-varied-range-nested-cv-boxplots}
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{differently-sized-hidden-layers-w-varied-range-results} 
+
+}
+
+\caption{Differently-sized Hidden Layers with Varied Range Setting's Performance Results}\label{fig:differently-sized-hidden-layers-w-varied-range-results}
+\end{figure}
+
+\end{document}

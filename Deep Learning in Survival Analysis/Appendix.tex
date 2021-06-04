@@ -1,0 +1,219 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Neural Networks in Survival Analysis},
+  pdfauthor={Xuan-Son Trinh - Son.Trinh@campus.lmu.de},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[headsep=0pt]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\setlength\parindent{0pt}
+\usepackage{bbm}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+  % set entry spacing
+  \ifnum #2 > 0
+  \setlength{\parskip}{#2\baselineskip}
+  \fi
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\title{\textbf{Neural Networks in Survival Analysis}}
+\author{Xuan-Son Trinh - \href{mailto:Son.Trinh@campus.lmu.de}{\nolinkurl{Son.Trinh@campus.lmu.de}}}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{5}
+\tableofcontents
+}
+\setlength{\parindent}{0pt}
+
+\appendix
+
+\hypertarget{appendix}{%
+\section{Appendix}\label{appendix}}
+
+\hypertarget{recurrent-neural-network-models-in-survival-analysis}{%
+\subsection{Recurrent Neural Network Models in Survival Analysis}\label{recurrent-neural-network-models-in-survival-analysis}}
+
+\hypertarget{giunchiglia-et-al.-rnn-surv-2018}{%
+\subsubsection{Giunchiglia et al.~(RNN-Surv) (2018)}\label{giunchiglia-et-al.-rnn-surv-2018}}
+
+Before RNN-Surv, there had not been published results applying RNN in survival analysis {[}2{]}. By taking advantage of RNN structure, RNN-Surv's authors managed to model the possible time-variant effects of the covariates and the dependence structure of survival probability of consecutive timesteps.
+
+For an individual \(i\), RNN-Surv deals with survival analysis problem by dividing it into \(K\) binary sub-problems on the intervals \((t_0,t_1],...,(t_{K-1},t_K]\). The goal is to model the survival probability estimate \(\hat{y}_i^{(k)}\) for each of the \(k\)-th time interval and then linearly combine \(K\) survival probability estimates to produce the final risk score \(\hat{r}_i\). The model is structured as follows:
+\vspace{-0.5cm}
+
+\begin{itemize}
+\tightlist
+\item
+  The input layer consists of \(K\) covariate vectors \(\mathbf{x}_i^{(k)}\) for each of the time interval.
+\item
+  The input is then passed through a feedforward neural network to extract a more meaningful representation of the data (embedding step).
+\item
+  The embedded data is then passed through an RNN and a sigmoid activation to give out \(K\) survival probability estimates \(\hat{y}_i^{(k)}\).
+\item
+  The results from the RNN will then be linearly combined to compute the final risk score: \(\hat{r}_i = \sum_{k = 1}^{K} \hat{y}_i^{(k)}\).
+\end{itemize}
+
+The loss function to this model is defined as a linear combination of two sub-losses \(\mathcal{L}_1\) and \(\mathcal{L}_2\), with the summation coefficients are set as hyperparamaters to be optimized during validation.
+\vspace{-0.5cm}
+
+\begin{itemize}
+\tightlist
+\item
+  \(\mathcal{L}_1\) integrates \(K\) binary sub-problems' losses with the cross-entropy loss.
+\item
+  \(\mathcal{L}_2\) is defined as an upper bound on the C-index {[}4{]}, which is less computationally expensive than the negative C-index.
+\end{itemize}
+
+The model settings are as follows: dropout is applied to feedforward layers and recurrent layers, together with early stopping. The model also uses L2-regularization to the linear combination of the losses. The network is trained using Adam optimizer and mini-batching. Before used for training, the data is preprocessed by first imputing missing value (using mean value for continuous features and using the most recurrent value for categorical ones) and second using one-hot encoding for categorical features and standardizing each feature.
+
+\hypertarget{lee-et-al.-dynamic-deephit-2019}{%
+\subsubsection{Lee et al.~(Dynamic-DeepHit) (2019)}\label{lee-et-al.-dynamic-deephit-2019}}
+
+Dynamic-DeepHit is a powerful extension of the original DeepHit mentioned in the previous section {[}3{]}. As a result, it inherits the ability of DeepHit in learning directly the time-to-event distribution without making any strict assumption on the underlying stochastic process and in dealing with competing risks naturally. In addition, Dynamic-DeepHit can also work with time-varying covariates. This helps Dynamic-DeepHit take advantage of the amount of data available over time rather than just rely on the last available measurements like its predecessor.
+
+Similar to DeepHit's architecture, Dynamic-DeepHit's is also structured as a multi-task network:
+\vspace{-0.45cm}
+
+\begin{itemize}
+\tightlist
+\item
+  A \emph{shared sub-network}: This sub-network includes 2 parts:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    An RNN structure to capture information from longitudinal covariates. It can flexibly handle longitudinal data where each observation has different number of measurements and not every predictor is observed at each measurement (partially missing).
+  \item
+    A temporal attention mechanism {[}1{]} to enable the network to make decision on the parts of the past longitudinal measurements to focus on. It is formally defined as a weighted sum of the hidden states {[}3{]}.
+  \end{itemize}
+\item
+  \(K\) \emph{cause-specific sub-networks}: Each cause-specific sub-network of Dynamic-DeepHit is a feedforward neural network with the goal of extracting information about underlying connections between the event and the history of measurements. The outputs of these sub-networks \(f_{c_k}\) correspond to the probabilities of event times for each of the causes.
+\item
+  An \emph{output layer}: Similar to DeepHit, this output layer will combine \(K\) output vectors from the cause-specific sub-networks and apply the softmax activation function to give out a proper probability measure that represents the estimate of join distribution of the events and the event times.
+\end{itemize}
+
+The loss function of this neural network \(\mathcal{L}_{total}\) is defined as combination of the three losses:
+\vspace{-0.45cm}
+
+\begin{itemize}
+\tightlist
+\item
+  \(\mathcal{L}_1\): the negative log-likelihood of the joint distribution of the events and the event times, taking into consideration of the right-censored data.
+\item
+  \(\mathcal{L}_2\): this loss penalizes the incorrect ordering of pairs with respect to each event based on the concordance rule: any observation with event time \(t\) should have a higher risk at event time \(t\) than another observation with event time greater than \(t\).
+\item
+  \(\mathcal{L}_3\): this loss plays a part of regularizing the shared sub-network in the sense that the hidden representation of the data (at time \(t_j\)) should preserve information for step-ahead prediction (at time \(t_{j + 1}\)).
+\end{itemize}
+
+The model is trained using Adam optimizer with various mini-batch sizes. Moreover, to prevent the model from overfitting, the authors used early-stopping based on the performance and L1 regularization for the cause-specific sub-networks and output layer. For evaluating on datasets, the authors used 5-fold cross validation and used 20\% of the data from training set to be validation set. The hyper-parameters for the activation functions, coefficients, number of hidden layers/nodes were performed using Random Search.
+
+\hypertarget{summary}{%
+\subsubsection{Summary}\label{summary}}
+
+Dynamic-DeepHit and RNN-SURV present the power of RNNs in working on sequential data, in this case the time-varying covariates. Furthermore, with Dynamic-DeepHit, it incorporates all the abilities of DeepHit like handling non-linearities, capturing time-varying effects and dealing with competing risks.\\
+However, missing values were cared in the data preprocessing step by using imputation methods and heuristics. There is no natural way for Dynamic-DeepHit and RNN-SURV network to deal with this problem. In addition, problems like left-truncation, left-censoring and interval-censoring were not taken into consideration in the methods.
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{0}{0}
+\leavevmode\hypertarget{ref-temporal-attention-mechanism}{}%
+\CSLLeftMargin{{[}1{]} }
+\CSLRightInline{Bahdanau, D. et al. 2014. Neural machine translation by jointly learning to align and translate. \emph{ArXiv}. 1409, (Sep. 2014).}
+
+\leavevmode\hypertarget{ref-rnn-surv}{}%
+\CSLLeftMargin{{[}2{]} }
+\CSLRightInline{Giunchiglia, E. et al. 2018. RNN-SURV: A deep recurrent model for survival analysis. (Oct. 2018).}
+
+\leavevmode\hypertarget{ref-dynamic-deephit}{}%
+\CSLLeftMargin{{[}3{]} }
+\CSLRightInline{Lee, C. et al. 2019. Dynamic-DeepHit: A deep learning approach for dynamic survival analysis with competing risks based on longitudinal data. \emph{IEEE Transactions on Biomedical Engineering}. PP, (Apr. 2019), 1--1. DOI:https://doi.org/\href{https://doi.org/10.1109/TBME.2019.2909027}{10.1109/TBME.2019.2909027}.}
+
+\leavevmode\hypertarget{ref-c-idx-bound}{}%
+\CSLLeftMargin{{[}4{]} }
+\CSLRightInline{Steck, H. et al. 2008. On ranking in survival analysis: Bounds on the concordance index. \emph{Advances in neural information processing systems} (2008), 1209--1216.}
+
+\end{CSLReferences}
+
+\end{document}

@@ -1,0 +1,77 @@
+---
+title: __Neural Networks in Survival Analysis__
+author: Xuan-Son Trinh - Son.Trinh@campus.lmu.de
+#date: "11/6/2020"
+header-includes:
+   - \setlength\parindent{0pt}
+   - \usepackage{bbm}
+output: 
+  bookdown::pdf_document2:
+    citation_package: default
+    toc: true
+    toc_depth: 5
+    pandoc_args: [ "--csl", "acm-sig-proceedings.csl"]
+    keep_tex: yes
+bibliography: "references (1).bib"
+biblio-style: ACM-Reference-Format-Journals
+
+indent: false
+geometry: headsep=0pt
+---
+
+\setlength{\parindent}{0pt}
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, tidy = TRUE, fig.align="center")
+```
+\appendix
+# Appendix
+## Recurrent Neural Network Models in Survival Analysis
+This section of the appendix gives some concrete examples about RNN applications in survival analysis.
+### Giunchiglia et al. (RNN-Surv) (2018)
+Before RNN-Surv, there had not been published results applying RNN in survival analysis @rnn-surv. By taking advantage of RNN structure, RNN-Surv's authors managed to model the possible time-variant effects of the covariates and the dependence structure of survival probability of consecutive timesteps.
+
+For an individual $i$, RNN-Surv deals with survival analysis problem by dividing it into $K$ binary sub-problems on the intervals $(t_0,t_1],...,(t_{K-1},t_K]$. The goal is to model the survival probability estimate $\hat{y}_i^{(k)}$ for each of the $k$-th time interval and then linearly combine $K$ survival probability estimates to produce the final risk score $\hat{r}_i$. The model is structured as follows:
+\vspace{-0.5cm}
+
+- The input layer consists of $K$ covariate vectors $\mathbf{x}_i^{(k)}$ for each of the time interval.
+- The input is then passed through a feedforward neural network to extract a more meaningful representation of the data (embedding step).
+- The embedded data is then passed through an RNN and a sigmoid activation to give out $K$ survival probability estimates $\hat{y}_i^{(k)}$.
+- The results from the RNN will then be linearly combined to compute the final risk score: $\hat{r}_i = \sum_{k = 1}^{K} \hat{y}_i^{(k)}$.
+
+The loss function to this model is defined as a linear combination of two sub-losses $\mathcal{L}_1$ and $\mathcal{L}_2$, with the summation coefficients are set as hyperparamaters to be optimized during validation.
+\vspace{-0.5cm}
+
+- $\mathcal{L}_1$ integrates $K$ binary sub-problems' losses with the cross-entropy loss.
+- $\mathcal{L}_2$ is defined as an upper bound on the C-index @c-idx-bound, which is less computationally expensive than the negative C-index.
+
+The model settings are as follows: dropout is applied to feedforward layers and recurrent layers, together with early stopping. The model also uses L2-regularization to the linear combination of the losses. The network is trained using Adam optimizer and mini-batching. Before used for training, the data is preprocessed by first imputing missing value (using mean value for continuous features and using the most recurrent value for categorical ones) and second using one-hot encoding for categorical features and standardizing each feature.
+
+### Lee et al. (Dynamic-DeepHit) (2019)
+Dynamic-DeepHit is a powerful extension of the original DeepHit mentioned in the previous section @dynamic-deephit. As a result, it inherits the ability of DeepHit in learning directly the time-to-event distribution without making any strict assumption on the underlying stochastic process and in dealing with competing risks naturally. In addition, Dynamic-DeepHit can also work with time-varying covariates. This helps Dynamic-DeepHit take advantage of the amount of data available over time rather than just rely on the last available measurements like its predecessor.
+
+Similar to DeepHit's architecture, Dynamic-DeepHit's is also structured as a multi-task network:
+\vspace{-0.45cm}
+
+- A _shared sub-network_: This sub-network includes 2 parts:
+    - An RNN structure to capture information from longitudinal covariates. It can flexibly handle longitudinal data where each observation has different number of measurements and not every predictor is observed at each measurement (partially missing).
+    - A temporal attention mechanism @temporal-attention-mechanism to enable the network to make decision on the parts of the past longitudinal measurements to focus on. It is formally defined as a weighted sum of the hidden states @dynamic-deephit.
+- $K$ _cause-specific sub-networks_: Each cause-specific sub-network of Dynamic-DeepHit is a feedforward neural network with the goal of extracting information about underlying connections between the event and the history of measurements. The outputs of these sub-networks $f_{c_k}$ correspond to the probabilities of event times for each of the causes.
+- An _output layer_: Similar to DeepHit, this output layer will combine $K$ output vectors from the cause-specific sub-networks and apply the softmax activation function to give out a proper probability measure that represents the estimate of join distribution of the events and the event times.
+
+The loss function of this neural network $\mathcal{L}_{total}$ is defined as combination of the three losses:
+\vspace{-0.45cm}
+
+- $\mathcal{L}_1$: the negative log-likelihood of the joint distribution of the events and the event times, taking into consideration of the right-censored data.
+- $\mathcal{L}_2$: this loss penalizes the incorrect ordering of pairs with respect to each event based on the concordance rule: any observation with event time $t$ should have a higher risk at event time $t$ than another observation with event time greater than $t$.
+- $\mathcal{L}_3$: this loss plays a part of regularizing the shared sub-network in the sense that the hidden representation of the data (at time $t_j$) should preserve information for step-ahead prediction (at time $t_{j + 1}$).
+
+The model is trained using Adam optimizer with various mini-batch sizes. Moreover, to prevent the model from overfitting, the authors used early-stopping based on the performance and L1 regularization for the cause-specific sub-networks and output layer. For evaluating on datasets, the authors used 5-fold cross validation and used 20% of the data from training set to be validation set. The hyper-parameters for the activation functions, coefficients, number of hidden layers/nodes were performed using Random Search.
+
+### Summary
+Dynamic-DeepHit and RNN-SURV present the power of RNNs in working on sequential data, in this case the time-varying covariates. Furthermore, with Dynamic-DeepHit, it incorporates all the abilities of DeepHit like handling non-linearities, capturing time-varying effects and dealing with competing risks.\
+However, missing values were cared in the data preprocessing step by using imputation methods and heuristics. There is no natural way for Dynamic-DeepHit and RNN-SURV network to deal with this problem. In addition, problems like left-truncation, left-censoring and interval-censoring were not taken into consideration in the methods.
+
+
+
+
